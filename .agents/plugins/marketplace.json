@@ -1,7 +1,7 @@
 {
-  "name": "personal",
+  "name": "jakeuj-codex-plugins",
   "interface": {
-    "displayName": "Personal"
+    "displayName": "Jakeuj Codex Plugins"
   },
   "plugins": [
     {
