@@ -1,0 +1,4 @@
+interface:
+  display_name: "Evennia Doc Reader"
+  short_description: "Read and study Evennia docs page by page using next navigation"
+  default_prompt: "Read and study the Evennia documentation from start to finish, following the next navigation links on each page."

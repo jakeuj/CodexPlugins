@@ -1,0 +1,47 @@
+{
+  "name": "evennia",
+  "version": "1.0.0+codex.20260702023623",
+  "description": "Evennia MUD game development skills — 28 comprehensive skills for learning and building with Evennia. Covers typeclasses, commands, attributes, tags, scripts, locks, channels, command sets, objects, rooms, exits, characters, accounts, prototypes, default commands, help system, EvMenu, EvEditor, nicks, coding utils, sessions, signals, ticker/monitor/on-demand handlers, REST API, and web admin.",
+  "author": {
+    "name": "Jakeuj",
+    "email": "jakeuj@example.com",
+    "url": "https://github.com/jakeuj"
+  },
+  "homepage": "https://www.evennia.com",
+  "repository": "https://github.com/jakeuj/evennia-codex-plugin",
+  "license": "MIT",
+  "keywords": [
+    "evennia",
+    "mud",
+    "game-dev",
+    "python",
+    "text-adventure"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Evennia MUD Development",
+    "shortDescription": "Learn and build MUD games with Evennia — 28 skills",
+    "longDescription": "A comprehensive skill set for learning and developing with Evennia, the open-source Python MU* creation system. Phase 1: browse documentation, typeclasses, commands, attributes, tags, scripts, locks, channels, command sets. Phase 2: objects, rooms, exits, characters, accounts, prototypes, default commands, help system, EvMenu, EvEditor, nicks, coding utils, sessions, signals, ticker/monitor/on-demand handlers, REST API, web admin.",
+    "developerName": "Jakeuj",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://www.evennia.com",
+    "privacyPolicyURL": "https://www.evennia.com/privacy/",
+    "termsOfServiceURL": "https://www.evennia.com/terms/",
+    "brandColor": "#00AA00",
+    "composerIcon": "./assets/evennia-logo.png",
+    "logo": "./assets/evennia-logo.png",
+    "screenshots": [],
+    "defaultPrompt": [
+      "Read the Evennia documentation page by page",
+      "Create a new Evennia typeclass",
+      "Build a custom command for my MUD game",
+      "Set up a background script with timer",
+      "Create an EvMenu branching menu",
+      "Build an exit traversal system"
+    ]
+  }
+}
