@@ -1,0 +1,13 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "evennia",
+  "version": "1.0.0",
+  "description": "Evennia MUD game development skills covering typeclasses, commands, attributes, rooms, exits, scripts, web APIs, and admin workflows.",
+  "author": {
+    "name": "Jakeuj",
+    "url": "https://github.com/jakeuj"
+  },
+  "homepage": "https://github.com/jakeuj/CodexPlugins/tree/main/plugins/evennia",
+  "repository": "https://github.com/jakeuj/CodexPlugins",
+  "license": "MIT"
+}

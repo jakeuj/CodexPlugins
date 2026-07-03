@@ -9,8 +9,15 @@ Each plugin lives under `plugins/<name>/` with a required
 `skills/`, `.app.json`, `.mcp.json`, plugin-level `agents/`, `commands/`,
 `hooks.json`, `assets/`, and other supporting files.
 
-The default marketplace lives at `.agents/plugins/marketplace.json` and points
-at the standard `plugins/` directory.
+The default Codex marketplace lives at `.agents/plugins/marketplace.json` and
+points at the standard `plugins/` directory.
+
+Claude Code marketplace metadata lives at `.claude-plugin/marketplace.json` so
+the repository can also be added with:
+
+```bash
+/plugin marketplace add jakeuj/CodexPlugins
+```
 
 ## Current Plugins
 
@@ -25,11 +32,15 @@ at the standard `plugins/` directory.
 python3 .agents/skills/plugin-creator/scripts/create_basic_plugin.py <plugin-name>
 ```
 
-2. Edit `plugins/<name>/.codex-plugin/plugin.json` to fill in metadata.
+2. Edit `plugins/<name>/.codex-plugin/plugin.json` to fill in Codex metadata.
 
-3. Add skills, assets, or other companion files under `plugins/<name>/`.
+3. Add `plugins/<name>/.claude-plugin/plugin.json` if the plugin should also be
+   installable from Claude Code.
 
-4. If the plugin should appear in your personal marketplace, run with `--with-marketplace`:
+4. Add skills, assets, or other companion files under `plugins/<name>/`.
+
+5. If the plugin should appear in your personal Codex marketplace, run with
+   `--with-marketplace`:
 
 ```bash
 python3 .agents/skills/plugin-creator/scripts/create_basic_plugin.py <plugin-name> --with-marketplace

@@ -9,8 +9,15 @@
 `skills/`、`.app.json`、`.mcp.json`、plugin 層級的 `agents/`、`commands/`、
 `hooks.json`、`assets/` 等支援檔案。
 
-預設的 marketplace 位於 `.agents/plugins/marketplace.json`，並指向標準的
+預設的 Codex marketplace 位於 `.agents/plugins/marketplace.json`，並指向標準的
 `plugins/` 目錄。
+
+Claude Code marketplace metadata 位於 `.claude-plugin/marketplace.json`，因此也可以用
+下列指令加入：
+
+```bash
+/plugin marketplace add jakeuj/CodexPlugins
+```
 
 ## 現有 Plugins
 
@@ -25,11 +32,15 @@
 python3 .agents/skills/plugin-creator/scripts/create_basic_plugin.py <plugin 名稱>
 ```
 
-2. 編輯 `plugins/<plugin 名稱>/.codex-plugin/plugin.json` 填入相關資訊。
+2. 編輯 `plugins/<plugin 名稱>/.codex-plugin/plugin.json` 填入 Codex metadata。
 
-3. 在 `plugins/<plugin 名稱>/` 下加入 skills、assets 或其他附屬檔案。
+3. 若 plugin 也要能從 Claude Code 安裝，加入
+   `plugins/<plugin 名稱>/.claude-plugin/plugin.json`。
 
-4. 若希望 plugin 出現在個人的 marketplace 中，加上 `--with-marketplace` 參數執行：
+4. 在 `plugins/<plugin 名稱>/` 下加入 skills、assets 或其他附屬檔案。
+
+5. 若希望 plugin 出現在個人的 Codex marketplace 中，加上 `--with-marketplace`
+   參數執行：
 
 ```bash
 python3 .agents/skills/plugin-creator/scripts/create_basic_plugin.py <plugin 名稱> --with-marketplace

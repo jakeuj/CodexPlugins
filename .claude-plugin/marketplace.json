@@ -1,0 +1,39 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "jakeuj-codex-plugins",
+  "description": "Personal plugin marketplace for Jakeuj's Codex and Claude Code plugin experiments.",
+  "owner": {
+    "name": "Jakeuj",
+    "url": "https://github.com/jakeuj"
+  },
+  "metadata": {
+    "description": "Personal plugin marketplace for Jakeuj's Codex and Claude Code plugin experiments.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "evennia",
+      "description": "Evennia MUD game development skills covering typeclasses, commands, attributes, rooms, exits, scripts, web APIs, and admin workflows.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Jakeuj",
+        "url": "https://github.com/jakeuj"
+      },
+      "category": "development",
+      "source": "./plugins/evennia",
+      "homepage": "https://github.com/jakeuj/CodexPlugins/tree/main/plugins/evennia"
+    },
+    {
+      "name": "codex-image",
+      "description": "Generate raster image assets through Codex's local imagegen workflow and copy PNG outputs into the current workspace.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Jakeuj",
+        "url": "https://github.com/jakeuj"
+      },
+      "category": "creative",
+      "source": "./plugins/codex-image",
+      "homepage": "https://github.com/jakeuj/CodexPlugins/tree/main/plugins/codex-image"
+    }
+  ]
+}
