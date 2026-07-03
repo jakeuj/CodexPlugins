@@ -1,0 +1,4 @@
+interface:
+  display_name: "Claude Plugin Creator"
+  short_description: "Build Claude Code plugin structure"
+  default_prompt: "Use $claude-plugin-creator to scaffold a Claude Code plugin with skills, manifests, validation, and marketplace metadata."
