@@ -15,6 +15,7 @@
 ## 現有 Plugins
 
 - [`evennia`](./plugins/evennia/) — Evennia MUD 遊戲開發技能集 — 共 28 個完整技能，涵蓋型別類別、指令、屬性、標籤、腳本、鎖定、頻道、指令集合、物件、房間、出口、角色、帳號、原型、預設指令、說明系統、EvMenu、EvEditor、暱稱、程式碼工具、工作階段、訊號、計時器/監控器/條件處理常式、REST API 和 Web 管理介面。
+- [`codex-image`](./plugins/codex-image/) — 透過 Codex 本機 imagegen 工作流產生 raster image asset，並把 PNG 複製到目前 workspace。
 
 ## 建立新 Plugin
 
