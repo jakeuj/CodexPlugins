@@ -1,0 +1,35 @@
+{
+  "name": "gw2-blish-hud",
+  "version": "0.1.0",
+  "description": "Develop, audit, and localize Guild Wars 2 Blish HUD, modules, and Pathing/TacO marker packs, with a focus on Traditional Chinese and CJK support.",
+  "author": {
+    "name": "Jakeuj",
+    "url": "https://github.com/jakeuj"
+  },
+  "homepage": "https://github.com/jakeuj/CodexPlugins/tree/main/plugins/gw2-blish-hud",
+  "repository": "https://github.com/jakeuj/CodexPlugins",
+  "keywords": [
+    "guild-wars-2",
+    "blish-hud",
+    "pathing",
+    "localization",
+    "traditional-chinese"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "GW2 Blish HUD & Pathing",
+    "shortDescription": "Develop and localize Blish HUD, modules, and Pathing packs",
+    "longDescription": "Audit, diagnose, and maintain Guild Wars 2 Blish HUD core, localized modules, Pathing/TacO route packs, resource fallback, satellite assemblies, and CJK font support, especially for Traditional Chinese.",
+    "developerName": "Jakeuj",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Audit this Blish HUD localization for missing keys and culture fallback.",
+      "Localize this Blish HUD module for Traditional Chinese.",
+      "Design a localized Pathing/TacO route-pack workflow."
+    ]
+  }
+}

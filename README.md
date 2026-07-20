@@ -23,6 +23,7 @@ the repository can also be added with:
 
 - [`evennia`](./plugins/evennia/) — Evennia MUD game development skills — 28 comprehensive skills covering typeclasses, commands, attributes, tags, scripts, locks, channels, command sets, objects, rooms, exits, characters, accounts, prototypes, default commands, help system, EvMenu, EvEditor, nicks, coding utils, sessions, signals, ticker/monitor/on-demand handlers, REST API, and web admin.
 - [`bahamut-post`](./plugins/bahamut-post/) — Create, rewrite, convert, and repair Traditional Chinese Bahamut/Gamer.com.tw forum posts with editor-safe source markup.
+- [`gw2-blish-hud`](./plugins/gw2-blish-hud/) — Develop, audit, and localize Guild Wars 2 Blish HUD, modules, and Pathing/TacO marker packs, especially for Traditional Chinese and CJK support.
 
 ## Publishing a Skill to the Marketplace
 
