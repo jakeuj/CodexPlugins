@@ -25,10 +25,11 @@ the repository can also be added with:
 
 ## Creating a New Plugin
 
-1. Scaffold a plugin directory:
+1. In Codex, use the built-in `$plugin-creator` skill to scaffold a plugin
+   under this repository's `plugins/` directory:
 
-```bash
-python3 .agents/skills/plugin-creator/scripts/create_basic_plugin.py <plugin-name>
+```text
+Use $plugin-creator to create <plugin-name> under this repository's plugins/ directory.
 ```
 
 2. Edit `plugins/<name>/.codex-plugin/plugin.json` to fill in Codex metadata.
@@ -38,9 +39,9 @@ python3 .agents/skills/plugin-creator/scripts/create_basic_plugin.py <plugin-nam
 
 4. Add skills, assets, or other companion files under `plugins/<name>/`.
 
-5. If the plugin should appear in your personal Codex marketplace, run with
-   `--with-marketplace`:
+5. If the plugin should appear in this repository's Codex marketplace, ask the
+   built-in skill to add it:
 
-```bash
-python3 .agents/skills/plugin-creator/scripts/create_basic_plugin.py <plugin-name> --with-marketplace
+```text
+Use $plugin-creator to add plugins/<plugin-name> to this repository's .agents/plugins/marketplace.json.
 ```
