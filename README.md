@@ -22,7 +22,6 @@ the repository can also be added with:
 ## Current Plugins
 
 - [`evennia`](./plugins/evennia/) — Evennia MUD game development skills — 28 comprehensive skills covering typeclasses, commands, attributes, tags, scripts, locks, channels, command sets, objects, rooms, exits, characters, accounts, prototypes, default commands, help system, EvMenu, EvEditor, nicks, coding utils, sessions, signals, ticker/monitor/on-demand handlers, REST API, and web admin.
-- [`codex-image`](./plugins/codex-image/) — Generate raster image assets through Codex's local imagegen workflow and copy PNG outputs into the current workspace.
 
 ## Creating a New Plugin
 

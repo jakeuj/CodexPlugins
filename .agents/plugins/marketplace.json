@@ -1,7 +1,7 @@
 {
-  "name": "jakeuj-codex-plugins",
+  "name": "jakeuj-marketplace",
   "interface": {
-    "displayName": "Jakeuj Codex Plugins"
+    "displayName": "Jakeuj Marketplace"
   },
   "plugins": [
     {
@@ -9,18 +9,6 @@
       "source": {
         "source": "local",
         "path": "./plugins/evennia"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Productivity"
-    },
-    {
-      "name": "codex-image",
-      "source": {
-        "source": "local",
-        "path": "./plugins/codex-image"
       },
       "policy": {
         "installation": "AVAILABLE",
