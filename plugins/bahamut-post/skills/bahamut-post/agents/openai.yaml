@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bahamut Post"
+  short_description: "Generate Bahamut forum-safe post markup"
+  default_prompt: "Use $bahamut-post to draft a Bahamut forum post with editor-safe markup."

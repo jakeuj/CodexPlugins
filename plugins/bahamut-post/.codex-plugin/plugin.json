@@ -1,0 +1,35 @@
+{
+  "name": "bahamut-post",
+  "version": "0.1.0",
+  "description": "Create, rewrite, convert, and repair Traditional Chinese Bahamut forum posts using editor-safe source markup.",
+  "author": {
+    "name": "Jakeuj",
+    "url": "https://github.com/jakeuj"
+  },
+  "homepage": "https://github.com/jakeuj/CodexPlugins/tree/main/plugins/bahamut-post",
+  "repository": "https://github.com/jakeuj/CodexPlugins",
+  "keywords": [
+    "bahamut",
+    "gamer-com-tw",
+    "forum",
+    "traditional-chinese",
+    "publishing"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Bahamut Post",
+    "shortDescription": "Create Bahamut-ready Traditional Chinese forum posts",
+    "longDescription": "Draft, rewrite, or convert articles into Bahamut/Gamer.com.tw source-mode markup while preserving safe tag nesting, line breaks, lists, commands, and links.",
+    "developerName": "Jakeuj",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Convert this article into Bahamut source-mode markup.",
+      "Rewrite this draft as a Traditional Chinese Bahamut post.",
+      "Repair the line breaks and tags in this Bahamut post."
+    ]
+  }
+}
