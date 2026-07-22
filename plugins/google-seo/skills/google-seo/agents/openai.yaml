@@ -1,0 +1,4 @@
+interface:
+  display_name: "Google SEO"
+  short_description: "Audit Google SEO, content, robots.txt, JS, mobile, AI"
+  default_prompt: "Use $google-seo to audit this site against Google Search Central SEO and helpful content guidance."

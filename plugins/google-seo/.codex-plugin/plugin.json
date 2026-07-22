@@ -1,0 +1,36 @@
+{
+  "name": "google-seo",
+  "version": "0.1.0",
+  "description": "Audit and improve websites using Google Search Central guidance for technical SEO, content quality, indexing, and search appearance.",
+  "author": {
+    "name": "Jakeuj",
+    "url": "https://github.com/jakeuj"
+  },
+  "homepage": "https://github.com/jakeuj/CodexPlugins/tree/main/plugins/google-seo",
+  "repository": "https://github.com/jakeuj/CodexPlugins",
+  "keywords": [
+    "google-search",
+    "seo",
+    "search-console",
+    "technical-seo",
+    "content-quality"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Google SEO",
+    "shortDescription": "Audit Google SEO, indexing, content, and search appearance",
+    "longDescription": "Audit and improve crawlability, indexing, canonical signals, metadata, JavaScript rendering, mobile-first indexing, structured data, people-first content, and generative AI search visibility using Google Search Central guidance.",
+    "developerName": "Jakeuj",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Audit this website against Google Search Central guidance.",
+      "Diagnose why these pages are not being indexed by Google.",
+      "Review this implementation for technical SEO and content-quality issues."
+    ]
+  }
+}

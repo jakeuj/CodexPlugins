@@ -1,0 +1,4 @@
+interface:
+  display_name: "Publish Skill to Marketplace"
+  short_description: "Package skills into marketplace plugins"
+  default_prompt: "Use $publish-skill-to-marketplace to package a skill into the best matching marketplace plugin."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "GW2 Blish HUD 與 Pathing"
+  short_description: "Blish HUD、Pathing 路線包繁中與 CJK 在地化"
+  default_prompt: "使用 $gw2-blish-hud 稽核並實作 Blish HUD、Pathing 模組或路線包的繁中與 CJK 在地化。"
