@@ -12,13 +12,20 @@ import shutil
 import sys
 import tempfile
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterable
 
 import yaml
 
 
-IGNORED_NAMES = {".DS_Store", "__pycache__"}
+IGNORED_NAMES = {
+    ".DS_Store",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    "__pycache__",
+}
 IGNORED_SUFFIXES = {".pyc", ".pyo"}
+MAX_PORTABILITY_TEXT_BYTES = 1_000_000
 FRONTMATTER_RE = re.compile(r"\A---\s*\n(.*?)\n---(?:\s*\n|\Z)", re.DOTALL)
 
 
@@ -55,6 +62,10 @@ def load_json_object(path: Path, label: str) -> dict[str, Any]:
         raise PackageError(f"{label} does not exist: {path}") from exc
     except json.JSONDecodeError as exc:
         raise PackageError(f"{label} is not valid JSON: {path}: {exc}") from exc
+    except UnicodeError as exc:
+        raise PackageError(f"{label} is not valid UTF-8: {path}: {exc}") from exc
+    except OSError as exc:
+        raise PackageError(f"could not read {label}: {path}: {exc}") from exc
     if not isinstance(payload, dict):
         raise PackageError(f"{label} must contain a JSON object: {path}")
     return payload
@@ -64,7 +75,12 @@ def parse_skill_frontmatter(skill_dir: Path) -> dict[str, str]:
     skill_md = skill_dir / "SKILL.md"
     if not skill_md.is_file():
         raise PackageError(f"skill directory is missing SKILL.md: {skill_dir}")
-    text = skill_md.read_text(encoding="utf-8")
+    try:
+        text = skill_md.read_text(encoding="utf-8")
+    except UnicodeError as exc:
+        raise PackageError(f"SKILL.md is not valid UTF-8: {skill_md}: {exc}") from exc
+    except OSError as exc:
+        raise PackageError(f"could not read SKILL.md: {skill_md}: {exc}") from exc
     match = FRONTMATTER_RE.match(text)
     if match is None:
         raise PackageError(f"SKILL.md is missing YAML frontmatter: {skill_md}")
@@ -176,10 +192,17 @@ def inventory(args: argparse.Namespace) -> int:
         marketplace_path = repo_root / ".agents" / "plugins" / "marketplace.json"
     if not inside(marketplace_path, repo_root):
         raise PackageError(f"marketplace path escapes the selected root: {marketplace_path}")
-    marketplace = load_json_object(marketplace_path, "marketplace")
-    entries = marketplace.get("plugins")
-    if not isinstance(entries, list):
-        raise PackageError(f"marketplace plugins must be an array: {marketplace_path}")
+    marketplace_exists = marketplace_path.is_file()
+    if marketplace_exists:
+        marketplace = load_json_object(marketplace_path, "marketplace")
+        entries = marketplace.get("plugins")
+        if not isinstance(entries, list):
+            raise PackageError(f"marketplace plugins must be an array: {marketplace_path}")
+    elif marketplace_path.exists():
+        raise PackageError(f"marketplace path is not a file: {marketplace_path}")
+    else:
+        marketplace = {}
+        entries = []
 
     plugins: list[dict[str, Any]] = []
     skipped: list[dict[str, str]] = []
@@ -203,14 +226,24 @@ def inventory(args: argparse.Namespace) -> int:
     result: dict[str, Any] = {
         "repo_root": str(repo_root),
         "marketplace_path": str(marketplace_path),
+        "marketplace_exists": marketplace_exists,
         "marketplace_name": marketplace.get("name"),
         "plugins": plugins,
         "skipped": skipped,
     }
     if args.skill:
-        skill_dir = Path(args.skill).expanduser().resolve()
+        raw_skill_dir = Path(args.skill).expanduser()
+        skill_dir = raw_skill_dir.resolve()
         metadata = parse_skill_frontmatter(skill_dir)
-        result["source_skill"] = {**metadata, "path": str(skill_dir)}
+        result["source_skill"] = {
+            **metadata,
+            "path": str(skill_dir),
+            "portability_issues": find_portability_issues(
+                skill_dir,
+                metadata["name"],
+                aliases=(raw_skill_dir.absolute(),),
+            ),
+        }
     print(json.dumps(result, indent=2, ensure_ascii=False))
     return 0
 
@@ -219,6 +252,64 @@ def ignored(relative_path: Path) -> bool:
     return any(part in IGNORED_NAMES for part in relative_path.parts) or (
         relative_path.suffix in IGNORED_SUFFIXES
     )
+
+
+def portability_markers(
+    skill_dir: Path, skill_name: str, aliases: Iterable[Path]
+) -> dict[str, str]:
+    candidates = [
+        (str(skill_dir), "source_skill_root"),
+        *((str(alias), "source_skill_root") for alias in aliases),
+        (
+            str(Path.home() / ".codex" / "skills" / skill_name),
+            "codex_home_skill_path",
+        ),
+        (f"~/.codex/skills/{skill_name}", "codex_home_skill_path"),
+        (f"$CODEX_HOME/skills/{skill_name}", "codex_home_skill_path"),
+        (f"${{CODEX_HOME}}/skills/{skill_name}", "codex_home_skill_path"),
+        (f"$HOME/.codex/skills/{skill_name}", "codex_home_skill_path"),
+        (f"${{HOME}}/.codex/skills/{skill_name}", "codex_home_skill_path"),
+    ]
+    markers: dict[str, str] = {}
+    for marker, kind in candidates:
+        if marker:
+            markers.setdefault(marker, kind)
+    return markers
+
+
+def find_portability_issues(
+    skill_dir: Path, skill_name: str, aliases: Iterable[Path] = ()
+) -> list[dict[str, object]]:
+    issues: list[dict[str, object]] = []
+    markers = portability_markers(skill_dir, skill_name, aliases)
+    for path in sorted(skill_dir.rglob("*")):
+        relative = path.relative_to(skill_dir)
+        if ignored(relative) or path.is_symlink() or not path.is_file():
+            continue
+        try:
+            if path.stat().st_size > MAX_PORTABILITY_TEXT_BYTES:
+                continue
+            raw = path.read_bytes()
+        except OSError as exc:
+            raise PackageError(f"could not inspect skill file: {path}: {exc}") from exc
+        if b"\x00" in raw:
+            continue
+        try:
+            text = raw.decode("utf-8")
+        except UnicodeDecodeError:
+            continue
+        for line_number, line in enumerate(text.splitlines(), start=1):
+            for marker, kind in markers.items():
+                if marker in line:
+                    issues.append(
+                        {
+                            "path": relative.as_posix(),
+                            "line": line_number,
+                            "kind": kind,
+                            "match": marker,
+                        }
+                    )
+    return issues
 
 
 def skill_fingerprint(root: Path) -> dict[str, str]:
@@ -230,7 +321,9 @@ def skill_fingerprint(root: Path) -> dict[str, str]:
         if path.is_symlink():
             raise PackageError(f"skill contains a symbolic link, which is not copied: {path}")
         if path.is_file():
-            fingerprint[relative.as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
+            executable = "x" if path.stat().st_mode & 0o111 else "-"
+            digest = hashlib.sha256(path.read_bytes()).hexdigest()
+            fingerprint[relative.as_posix()] = f"{executable}:{digest}"
     return fingerprint
 
 
@@ -279,7 +372,8 @@ def copy_skill(args: argparse.Namespace) -> int:
             )
             return 0
         raise PackageError(
-            f"destination skill already exists with different content: {destination}"
+            "destination skill already exists with different content or executable modes: "
+            f"{destination}"
         )
 
     skills_root.mkdir(parents=True, exist_ok=True)

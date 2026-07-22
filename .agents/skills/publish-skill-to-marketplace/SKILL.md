@@ -30,6 +30,8 @@ python3 <publish-skill-root>/scripts/package_skill.py inventory \
 
 Omit `--skill` when the requested skill has not been created yet; compare candidates against the supplied name and description instead.
 
+If inventory reports `"marketplace_exists": false`, treat the candidate set as empty and continue with a new plugin scaffold. Let `$plugin-creator` create the marketplace; do not hand-write it.
+
 Consider only writable local plugins returned by the helper. Inspect each plugin's name, manifest description, keywords, and bundled skill frontmatter.
 
 - Honor an explicitly selected plugin only when it is a returned local marketplace plugin.
@@ -42,9 +44,11 @@ Consider only writable local plugins returned by the helper. Inspect each plugin
 
 For an existing skill:
 
-1. Read its complete `SKILL.md` and bundled resources.
-2. Run `quick_validate.py` from `$skill-creator` against the source directory.
-3. Keep the source directory unchanged.
+1. Read its complete `SKILL.md` and inventory the complete skill tree.
+2. Inspect `source_skill.portability_issues` from the inventory output. Review every match and plan packaged-copy changes for execution or resource paths tied to the source skill root, `~/.codex/skills`, or `$CODEX_HOME/skills`.
+3. Inspect `agents/openai.yaml` when present. Read only references or scripts required by the skill's routing instructions or the current packaging decision; do not load unrelated references or assets merely to copy them.
+4. Run `quick_validate.py` from `$skill-creator` against the source directory.
+5. Keep the source directory unchanged.
 
 When the skill does not exist:
 
@@ -77,14 +81,17 @@ python3 <publish-skill-root>/scripts/package_skill.py copy \
   --plugin-root <plugin-directory>
 ```
 
-The helper copies the complete skill tree while excluding caches. If the destination is identical, accept the no-op result. If it differs, stop and ask whether to replace or merge; never overwrite it implicitly.
+The helper copies the complete skill tree while excluding common caches and compares file contents plus executable state. If the destination is identical, accept the no-op result. If it differs, stop and ask whether to replace or merge; never overwrite it implicitly.
+
+When inventory reports portability issues, change only the packaged copy after copying. Resolve skill-bundled resources from `<plugin-root>/skills/<skill-name>/...` or an equivalent runtime-resolved skill root; resolve plugin-level resources from `<plugin-root>/...`. Never rely on the repository working directory. Review matches instead of blindly rewriting prose or examples, and run every affected script. On later publishes, preserve intentional packaged-only adaptations by reviewing the source/destination diff and merging rather than replacing.
 
 ## Validate and hand off
 
 1. Validate every packaged skill with `$skill-creator`'s `quick_validate.py`.
-2. Validate the plugin with `$plugin-creator`'s `validate_plugin.py`.
-3. Parse the marketplace and manifest as JSON, confirm the marketplace path resolves inside the selected root, and ensure plugin name, folder, and entry match.
-4. Update existing repository plugin lists or usage documentation when present.
-5. Run relevant helper tests and `git diff --check`.
-6. Do not install, register, or share the marketplace unless the user explicitly requests it.
-7. When a marketplace entry was created or updated, finish with URL-encoded Codex app View and Share links using the absolute marketplace path.
+2. Confirm every reported portability issue was intentionally rewritten or explicitly retained, and verify no packaged execution path still depends on the source skill location.
+3. Validate the plugin with `$plugin-creator`'s `validate_plugin.py`.
+4. Parse the marketplace and manifest as JSON, confirm the marketplace path resolves inside the selected root, and ensure plugin name, folder, and entry match.
+5. Update existing repository plugin lists or usage documentation when present.
+6. Run `python3 <publish-skill-root>/scripts/test_package_skill.py`, any relevant repository tests, and `git diff --check`.
+7. Do not install, register, or share the marketplace unless the user explicitly requests it.
+8. When a marketplace entry was created or updated, finish with URL-encoded Codex app View and Share links using the absolute marketplace path.
